@@ -1,0 +1,21 @@
+{
+    "status": true,
+    "data": {
+        "nik": "3317104903970001",
+        "nama": "ANGGI PUTRI PRADENA",
+        "tanggal_lahir": "09-03-1997",
+        "tempat_lahir": "REMBANG",
+        "alamat": "PERUM GRAHA KARTINIBLOK G NO 13",
+        "rt/rw": "005/005",
+        "kelurahan/desa": "KABONGANKIDUL",
+        "kecamatan": "REMBANG",
+        "jenis_kelamin": "PEREMPUAN",
+        "gol_darah": "",
+        "agama": "ISLAM",
+        "status_perkawinan": "KAWIN",
+        "pekerjaan": "MENGURUS RUMAH TANGGA",
+        "kewarganegaraan": "WNI",
+        "provinsi": "JAWA TENGAH",
+        "kota": "REMBANG"
+    }
+}
