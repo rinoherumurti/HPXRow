@@ -1,4 +1,4 @@
-import { KEY } from '../../ServerConfig.js';
+import { KEY } from '../ServerConfig.js';
 
 
 
