@@ -4,7 +4,7 @@ import { poolRow } from '../../database/dbrow.js';
 function validateOTP(phone, otp) {
     return new Promise(async function (resolve, reject) {
         let connection = await poolRow.getConnection();
-        let sSql = "SELECT * FROM web_dashboard.tbl_otp WHERE phone_number = ? AND is_use = 0 ORDER BY created_date DESC LIMIT 1; ";
+        let sSql = "SELECT * FROM web_dashboard.tbl_otp WHERE phone_number = ? AND is_use = 0 AND exp = 0 ORDER BY created_date DESC LIMIT 1; ";
         let param = [phone];
         try {
             // For pool initialization, see above
@@ -110,6 +110,7 @@ export const verifyOTP = async (req, res) => {
             if (rst) {
                 addRowData(Ind_Email, Ind_NomorHP, otp).then(function (result) {
                     if (result.length > 0) {
+                        result = replaceNullWithEmptyString(result);
                         return res.send(JSON.stringify({ status: true, data: result }));
                     }
 
@@ -139,4 +140,15 @@ function createRandomString(length) {
         result += chars.charAt(Math.floor(Math.random() * chars.length));
     }
     return result;
+}
+
+function replaceNullWithEmptyString(obj) {
+  for (const key in obj) {
+    if (obj[key] === null) {
+      obj[key] = '';
+    } else if (typeof obj[key] === 'object' && obj[key] !== null) {
+      replaceNullWithEmptyString(obj[key]); // Recursively handle nested objects
+    }
+  }
+  return obj;
 }

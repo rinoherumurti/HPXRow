@@ -4,18 +4,18 @@ import fs from "fs";
 import path from 'path';
 
 
-export const uploadNpwp = async (req, res) => {
-    const { token, npwp_image } = req.body;
+export const uploadKtp = async (req, res) => {
+    const { token, ktp_image } = req.body;
     try {
 
         // saveImage(ktp_image,token);
         // return res.send(JSON.stringify({ status: true, data: 'save sukses' }));
-        saveImage(npwp_image, token).then(function (result) {
+        saveImage(ktp_image, token).then(function (result) {
 
             if (result) {
                 // return res.send(JSON.stringify({ status: true, data: { msg: 'SUCCESS [SAVE IMAGE]' } }));
 
-                updateNpwpPath(token)
+                updateKtpPath(token)
                     .then(result => {
                         if (result) {
                             return res.send(JSON.stringify({ status: true}));
@@ -31,15 +31,15 @@ export const uploadNpwp = async (req, res) => {
             }
 
         }).catch((error) => {
-            console.log('saveImage NPWP: ' + error);
-            return res.send(JSON.stringify({ status: false, data: { msg: 'Upload NPWP[SAVE IMAGE]' } }));
+            console.log('saveImage KTP: ' + error);
+            return res.send(JSON.stringify({ status: false, data: { msg: 'Upload KTP[SAVE IMAGE]' } }));
 
         });
 
 
     } catch (err) {
         console.log(err);
-         return res.send(JSON.stringify({ status: false, data: { msg: 'Upload NPWP[SAVE IMAGE]' } }));
+         return res.send(JSON.stringify({ status: false, data: { msg: 'Upload KTP[SAVE IMAGE]' } }));
     }
 
 }
@@ -47,8 +47,9 @@ function saveImage(img, token) {
     return new Promise(function (resolve, reject) {
         //console.log(StringToSign);
 
-        const dirname = path.resolve();
-        const folderPath = "/home/www/public_html/ci_registrasi/upload/npwp/"; //SERVER
+        // const dirname = path.resolve();
+        // const folderPath = dirname + "/upload/ktp/";
+        const folderPath = "/home/www/public_html/ci_registrasi/upload/ktp/"; //SERVER
         // const folderPath = dirname + "/upload/npwp/";
         let filename = token + '.jpg';
 
@@ -65,11 +66,11 @@ function saveImage(img, token) {
     });
 }
 
-function updateNpwpPath(token) {
+function updateKtpPath(token) {
     return new Promise(async function (resolve, reject) {
         let ktpPath = token + ".jpg";
         let connection = await poolRow.getConnection();
-        let sSql = "UPDATE tblprafpre SET npwp_path=?, rdn_bca_npwp = 1,isNPWP = 1 WHERE token = ? ";
+        let sSql = "UPDATE tblprafpre SET ktp_path=? WHERE token = ? ";
         let param = [ktpPath, token];
         try {
             // For pool initialization, see above

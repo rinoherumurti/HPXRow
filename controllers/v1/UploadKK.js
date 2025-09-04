@@ -4,18 +4,18 @@ import fs from "fs";
 import path from 'path';
 
 
-export const uploadNpwp = async (req, res) => {
-    const { token, npwp_image } = req.body;
+export const uploadKK = async (req, res) => {
+    const { token, kk_image } = req.body;
     try {
 
         // saveImage(ktp_image,token);
         // return res.send(JSON.stringify({ status: true, data: 'save sukses' }));
-        saveImage(npwp_image, token).then(function (result) {
+        saveImage(kk_image, token).then(function (result) {
 
             if (result) {
                 // return res.send(JSON.stringify({ status: true, data: { msg: 'SUCCESS [SAVE IMAGE]' } }));
 
-                updateNpwpPath(token)
+                updateKkPath(token)
                     .then(result => {
                         if (result) {
                             return res.send(JSON.stringify({ status: true}));
@@ -31,15 +31,15 @@ export const uploadNpwp = async (req, res) => {
             }
 
         }).catch((error) => {
-            console.log('saveImage NPWP: ' + error);
-            return res.send(JSON.stringify({ status: false, data: { msg: 'Upload NPWP[SAVE IMAGE]' } }));
+            console.log('saveImage KK: ' + error);
+            return res.send(JSON.stringify({ status: false, data: { msg: 'Upload KK[SAVE IMAGE]' } }));
 
         });
 
 
     } catch (err) {
         console.log(err);
-         return res.send(JSON.stringify({ status: false, data: { msg: 'Upload NPWP[SAVE IMAGE]' } }));
+         return res.send(JSON.stringify({ status: false, data: { msg: 'Upload KK[SAVE IMAGE]' } }));
     }
 
 }
@@ -47,8 +47,9 @@ function saveImage(img, token) {
     return new Promise(function (resolve, reject) {
         //console.log(StringToSign);
 
-        const dirname = path.resolve();
-        const folderPath = "/home/www/public_html/ci_registrasi/upload/npwp/"; //SERVER
+        // const dirname = path.resolve();
+        // const folderPath = dirname + "/upload/ktp/";
+        const folderPath = "/home/www/public_html/ci_registrasi/upload/kk/"; //SERVER
         // const folderPath = dirname + "/upload/npwp/";
         let filename = token + '.jpg';
 
@@ -65,11 +66,11 @@ function saveImage(img, token) {
     });
 }
 
-function updateNpwpPath(token) {
+function updateKkPath(token) {
     return new Promise(async function (resolve, reject) {
         let ktpPath = token + ".jpg";
         let connection = await poolRow.getConnection();
-        let sSql = "UPDATE tblprafpre SET npwp_path=?, rdn_bca_npwp = 1,isNPWP = 1 WHERE token = ? ";
+        let sSql = "UPDATE tblprafpre SET kartu_keluarga_path=? WHERE token = ? ";
         let param = [ktpPath, token];
         try {
             // For pool initialization, see above
