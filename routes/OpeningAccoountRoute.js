@@ -26,6 +26,9 @@ import { occupationData } from '../controllers/v1/OccupationData.js';
 import { potData } from '../controllers/v1/PotData.js';
 import { additionalData } from '../controllers/v1/AdditionalData.js';
 import { uploadKK } from '../controllers/v1/UploadKK.js';
+import { uploadSwa } from '../controllers/v1/UploadSwa.js';
+import { requestLiveness } from '../controllers/v1/RequestLiveness.js';
+import { getPostalCode } from '../controllers/v1/RequestPostalCode.js';
 
 export const oaRouter = express.Router();
 //
@@ -50,6 +53,9 @@ oaRouter.post('/v1/occupationData', verifyAccessToken, occupationData);
 oaRouter.post('/v1/potData', verifyAccessToken, potData);
 oaRouter.post('/v1/additionalData', verifyAccessToken, additionalData);
 oaRouter.post('/v1/upload/kk', verifyAccessToken, uploadKK);
+oaRouter.post('/v1/upload/swa', verifyAccessToken, uploadSwa);
+oaRouter.post('/v1/requestLiveness', verifyAccessToken, requestLiveness);
+oaRouter.post('/v1/getPostalCode', verifyAccessToken, getPostalCode);
 // router.post('/v1/requestOTP', verifyAccessToken, existingEmailPhone, oaController.accountVerification);
 
 // router.put('/polls/:pollId', pollController.updatePoll);

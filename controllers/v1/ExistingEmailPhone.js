@@ -17,7 +17,8 @@ export const existingEmailPhone = async (req, res) => {
             return res.send(JSON.stringify({ status: false, data: { code: '7', msg: 'Email or Phone already exist' } }));
         }
         else {
-            let sSql = "SELECT * FROM web_dashboard.tblprafpre WHERE (Ind_Email=? OR Ind_NomorHP like ?) AND (FormStatus = '7' OR is_checked = '3')";
+            // let sSql = "SELECT * FROM web_dashboard.tblprafpre WHERE (Ind_Email=? OR Ind_NomorHP like ?) AND (FormStatus = '7' OR is_checked = '3')";
+            let sSql = "SELECT * FROM web_dashboard.tblprafpre WHERE (Ind_Email=? OR Ind_NomorHP like ?) AND FormStatus != '1'"
             let param = [Ind_Email, likeParam];
             const [rst] = await connection.execute(sSql, param);
             connection.release();

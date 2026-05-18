@@ -20,7 +20,8 @@ export const DbRow = Object.freeze({
 });
 
 export const URL_ENDPOINT = Object.freeze({
-  OCR: "https://api.asliri.id:8443/henanputihraisekuritas_prod/ocr_extra"
+  OCR: "https://api.asliri.id:8443/henanputihraisekuritas_prod/ocr_extra",
+  LIVENESS: "https://api.asliri.id:8443/henanputihraisekuritas_prod/passive_liveness"
 });
 
 

@@ -1,5 +1,5 @@
-
 import { poolRow } from '../../database/dbrow.js';
+import { getDynamicLogger } from '../../middlewares/Logger.js';
 
 export const potData = async (req, res) => {
 
@@ -9,8 +9,11 @@ export const potData = async (req, res) => {
         Ind_BidangUsahaPOT,Ind_JabatanPOT,Ind_KantorPOT,Ind_Kantor_alamat1POT,Ind_Kantor_teleponPOT,
         last_page,token } = req.body;
     let connection = await poolRow.getConnection();
-    try {
 
+    const controllerLogger = getDynamicLogger(token);
+    controllerLogger.info('POTData', req.body);
+    try {
+        let sSql;
         let $update = {
             "Ind_HubunganPOT": Ind_HubunganPOT,
             "Ind_NomorIdPOT": Ind_NomorIdPOT,
@@ -41,7 +44,7 @@ export const potData = async (req, res) => {
             "last_page":last_page
         };
         
-        let sSql = "UPDATE web_dashboard.tblprafpre SET ";
+        sSql = "UPDATE web_dashboard.tblprafpre SET ";
         let elements = [];
         for (var key in $update) {
             elements.push(`${key} = '${$update[key]}' `);
@@ -57,14 +60,15 @@ export const potData = async (req, res) => {
             return res.send(JSON.stringify({ status: true }));
         }
         else {
-            return res.send(JSON.stringify({ status: false, data: { msg: 'Error Occupation Data.' } }));
+            return res.send(JSON.stringify({ status: false, data: { msg: 'Error POT Data.' } }));
         }
 
 
     } catch (error) {
         connection.release();
-        console.error("Error Occupation Data : ", error.message);
-        return res.send(JSON.stringify({ status: false, data: { msg: 'Error Occupation Data.' } }));
+        console.error("Error POT Data : ", error.message, sSql);
+        controllerLogger.debug('POTData ERROR', sSql);
+        return res.send(JSON.stringify({ status: false, data: { msg: 'Error POT Data.' } }));
     }
 
 

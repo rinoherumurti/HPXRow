@@ -4,7 +4,7 @@ import { poolRow } from '../../database/dbrow.js';
 export const additionalData = async (req, res) => {
 
     const { Ind_BekerjaPadaEfek, Ind_PerusahaanEfekRekening,Ind_BeneficialOwner,Ind_BeneficialOwner_Nama,
-        rekening_efek_lain, rekening_sid, Ind_InstruksiAS,kode_sales,promo,
+        rekening_efek_lain, rekening_sid, Ind_InstruksiAS,kode_sales,promo,FormStatus,
         last_page,token } = req.body;
     let connection = await poolRow.getConnection();
     try {
@@ -18,6 +18,8 @@ export const additionalData = async (req, res) => {
             "rekening_sid": rekening_sid,
             "Ind_InstruksiAS": Ind_InstruksiAS,
             "kode_sales": kode_sales,
+            "promo":promo,
+            "FormStatus":FormStatus,
             "last_page":last_page
         };
         
@@ -26,7 +28,10 @@ export const additionalData = async (req, res) => {
         for (var key in $update) {
             elements.push(`${key} = '${$update[key]}' `);
         }
-        let joinQuery = elements.join(",");
+        const stringToRemove = "undefined";
+        const filteredArray = elements.filter(item => !item.includes(stringToRemove));
+   
+        let joinQuery = filteredArray.join(",");
         sSql += ` ${joinQuery} WHERE token = '${token}'`;
 
 

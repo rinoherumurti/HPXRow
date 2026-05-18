@@ -2,7 +2,7 @@
 import { poolRow } from '../../database/dbrow.js';
 
 export const occupationData = async (req, res) => {
-
+    let sSql;
     const { Ind_TujuanInvestasi1, Ind_TujuanInvestasi1_Lainnya,Ind_Pekerjaan,Ind_Pekerjaan_Lainnya,Ind_SumberUtamaDana,
         Ind_SumberUtamaDanaLainnya, Ind_PenghasilanTahun, Ind_BidangUsaha, Ind_Jabatan,
         Ind_Bekerjapadaperusahaan,Ind_Kantor_alamat1,Ind_Kantor_telepon,is_bo,
@@ -27,7 +27,7 @@ export const occupationData = async (req, res) => {
             "last_page":last_page
         };
         
-        let sSql = "UPDATE web_dashboard.tblprafpre SET ";
+        sSql = "UPDATE web_dashboard.tblprafpre SET ";
         let elements = [];
         for (var key in $update) {
             elements.push(`${key} = '${$update[key]}' `);
@@ -49,7 +49,7 @@ export const occupationData = async (req, res) => {
 
     } catch (error) {
         connection.release();
-        console.error("Error Occupation Data : ", error.message);
+        console.error("Error Occupation Data : ", error.message, sSql);
         return res.send(JSON.stringify({ status: false, data: { msg: 'Error Occupation Data.' } }));
     }
 

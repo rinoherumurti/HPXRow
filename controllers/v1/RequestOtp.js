@@ -72,6 +72,10 @@ async function updateOTPExp(phone) {
 export const requestOtp = async (req, res) => {
     const { Ind_NomorHP, type } = req.body;
 
+    if(!Ind_NomorHP || Ind_NomorHP == ''){
+        return res.send(JSON.stringify({ status: false, data: { msg: 'Send OTP Failed' } }));
+    }
+
     const config = {
         headers: {
             'Content-Type': 'application/json'
@@ -96,13 +100,13 @@ export const requestOtp = async (req, res) => {
                         method: type
                     });
 
-                    axios.post('http://192.168.19.241:6666/SendOTP', data, config)
+                    axios.post('http://192.168.19.241:6668/SendOTP', data, config)
                         .then((result) => {
-                            return res.send(JSON.stringify({ status: true, data: { msg: 'Send OTP Success' } }));
+                            return res.send(JSON.stringify({ status: true, data: { msg: 'Send OTP Success',count: otpCount } }));
                         })
                         .catch((err) => {
                             console.error('Request OTP Error (CALL API)');
-                            return res.send(JSON.stringify({ status: false, data: { msg: 'Send OTP Failed' } }));
+                            return res.send(JSON.stringify({ status: false, data: { msg: 'Send OTP Failed',count: otpCount } }));
                         });
 
 
